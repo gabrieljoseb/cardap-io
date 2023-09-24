@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 export default class PasswordRecovery extends React.Component {
   render() {
@@ -8,17 +7,15 @@ export default class PasswordRecovery extends React.Component {
       <main className="password-recovery-main">
         <section className="pass-recovery-section">
           <section className="pass-recovery-title">
-            <h1>Need help with your password?</h1>
+            <h1>Precisa de ajuda com sua senha?</h1>
             <p>
-              Enter the email you use for Cardap.io, and we’ll help you create
-              a new password.
+              Insira o e-mail cadastrado que vamos ajudá-lo
             </p>
           </section>
           <section className="forgot-pass-submit-section">
             <input className="forgot-pass-input" type="email" placeholder="Email"></input>
-            <button className="forgot-pass-btn">Next</button>
+            <button className="forgot-pass-btn">Próximo</button>
           </section>
-          <Link className="forgot-email" to="/">Forgot your email?</Link>
         </section>
       </main>
     );

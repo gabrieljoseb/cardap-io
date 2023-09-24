@@ -40,7 +40,7 @@ const CheckoutPayment = ({ totalPayment }) => {
     if (!value.month || value.month > 12 || value.month < 1) {
       errors.year = "Please enter valid month"
     }
-    if (!value.year || value.year > 28 || value.year < 17) {
+    if (!value.year || value.year < 23) {
       errors.year = "Please enter valid year"
     }
     return errors;
@@ -50,18 +50,16 @@ const CheckoutPayment = ({ totalPayment }) => {
       {submit && Object.keys(formError).length === 0 ?
         <article className="success-payment">
           <section className="success-payment-title">
-            <h2>Your food is on the way!</h2>
-            <p>Thank you for the order. We will update your order status once the restraurant confirms it. </p>
+            <h2>Pedido realizado!</h2>
+            <p>Em breve o garçom irá trazer seu pedido</p>
           </section>
           <img src={Tick} alt="" aria-hidden="true"/>
           <section className="payment-details">
-            <p>Amount paid: <span>{totalPayment} $</span></p>
-            <p>Transaction id: <span>{transactionId}</span></p>
-            <h3>Est. delivery time: 24mins.</h3>
+            <p>Total: <span>{totalPayment} $</span></p>
+            <p>ID da transação: <span>{transactionId}</span></p>
           </section>
           <section className="success-payment-redirection">
-            <Link className="active-button-style" to="/order" onClick={ResetLocation}>Track my order</Link>
-            <Link to="/menu" onClick={ResetLocation}>Order something else</Link>
+            <Link className="active-button-style" to="/menu" onClick={ResetLocation}>Fazer outro pedido</Link>
           </section>
         </article> :
         <article className="choose-payment">
