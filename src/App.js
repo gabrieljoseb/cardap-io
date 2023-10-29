@@ -32,6 +32,7 @@ export default class App extends React.Component {
       formError: {},
       submit: false,
       validLogin: false,
+      preferenceId: null
     }
 
     this.getProductsByCategory = this.getProductsByCategory.bind(this)
@@ -420,6 +421,22 @@ export default class App extends React.Component {
 
     return true
   }
+
+  handlePayment = () => {
+    fetch('http://localhost:3001/create-preference', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      const preferenceId = data.id;
+      window.location.href = `https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=${preferenceId}`;
+    })
+    .catch(error => console.error('Erro ao criar preferência de pagamento:', error));
+  }
+
   render() {
     return (
       <BrowserRouter>
@@ -446,9 +463,9 @@ export default class App extends React.Component {
           productsQuantity={this.state.productsQuantity}
         />
         <Routes>
-          <Route 
-            path="/" 
-            element= {
+          <Route
+            path="/"
+            element={
               <Menu
                 findMenuItem={this.findMenuItem}
                 allProducts={this.state.allProducts}
@@ -459,7 +476,7 @@ export default class App extends React.Component {
                 successMsg={this.successMsg}
                 activeCategory={this.state.activeCategory}
               />
-            } 
+            }
           />
           <Route
             path="/menu"
@@ -523,10 +540,15 @@ export default class App extends React.Component {
           <Route
             path="/payment"
             element={
-              <Payment
-                cartItems={this.state.cartItems}
-                totalPayment={this.state.totalPayment}
-              />
+              <div>
+                <Payment
+                  cartItems={this.state.cartItems}
+                  totalPayment={this.state.totalPayment}
+                />
+                <button onClick={this.handlePayment}>
+                  Pagar com Mercado Pago
+                </button>
+              </div>
             }
           />
           <Route path="/password-recovery" element={<PasswordRecovery />} />

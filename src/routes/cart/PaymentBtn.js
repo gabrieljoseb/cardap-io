@@ -7,7 +7,7 @@ export default class PaymentBtn extends React.Component {
     const { className } = this.props;
     return (
       <Link to="/payment" className={className} onClick={ResetLocation}>
-        Proceed to payment
+        Ir para o pagamento
       </Link>
 
     );
