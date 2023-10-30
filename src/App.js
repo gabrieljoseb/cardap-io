@@ -4,16 +4,15 @@ import Header from './routes/landing/Header.js'
 import {
   Cart,
   Menu,
-  PasswordRecovery,
-  Payment,
-  Register,
   SingleItem,
+  SuccessfulPayment,
+  PendingPayment,
+  FailedPayment
 } from './routes/index'
 import { allProductsData } from './data/AllProductsData.js'
 import { AllCategories } from './data/AllCategories'
 import Item from './routes/singleItem/Item.js'
 import CartTotals from './routes/cart/CartTotals.js'
-import LoginModal from './components/LoginModal.js'
 import CartItem from './routes/cart/CartItem.js'
 
 export default class App extends React.Component {
@@ -27,11 +26,8 @@ export default class App extends React.Component {
       allProducts: [],
       productsQuantity: 0,
       totalPayment: 0,
-      taxes: 0,
-      formValue: { email: '', password: '' },
       formError: {},
       submit: false,
-      validLogin: false,
       preferenceId: null
     }
 
@@ -39,13 +35,7 @@ export default class App extends React.Component {
     this.changeCategory = this.changeCategory.bind(this)
     this.handleAddProduct = this.handleAddProduct.bind(this)
     this.handleRemoveProduct = this.handleRemoveProduct.bind(this)
-    this.clearCart = this.clearCart.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.validateForm = this.validateForm.bind(this)
-    this.handleValidation = this.handleValidation.bind(this)
-    this.hideModal = this.hideModal.bind(this)
     this.removeNavigationMenu = this.removeNavigationMenu.bind(this)
-    this.handleLogout = this.handleLogout.bind(this)
     this.findMenuItem = this.findMenuItem.bind(this)
   }
 
@@ -56,14 +46,12 @@ export default class App extends React.Component {
       resolve(AllCategories)
       return
     }
-    reject('error, check the code!')
   })
   allProductsData = new Promise((resolve, reject) => {
     if (true) {
       resolve(allProductsData)
       return
     }
-    reject('error, check the code!')
   })
 
   getCategories = async () => {
@@ -258,6 +246,7 @@ export default class App extends React.Component {
       this.setState({ productsQuantity: sum })
     }
   }
+
   // Remove Product From Cart
   handleRemoveProduct = (targetProduct, userSelectedAttributes) => {
     let updatedProductList
@@ -295,11 +284,6 @@ export default class App extends React.Component {
     }
   }
 
-  clearCart() {
-    this.setState({ cartItems: [] })
-    this.setState({ clearedCart: true })
-  }
-
   getTotalPrice = (cartItems) => {
     let totalPayment = 0
     cartItems.map((item) => {
@@ -324,11 +308,6 @@ export default class App extends React.Component {
     }, 1000)
   }
 
-  // ! MODAL TOGGLE
-  showModal() {
-    const hiddenModal = document.querySelector('.modal')
-    hiddenModal.classList.toggle('active-modal')
-  }
   showHiddenMenu() {
     const hiddenMenu = document.querySelector('.navigation-menu')
     hiddenMenu.classList.toggle('active')
@@ -338,65 +317,23 @@ export default class App extends React.Component {
     hiddenMenu.classList.remove('active')
   }
 
-  // ! LOGIN MODAL Validation
-  handleSubmit = (e) => {
-    e.preventDefault()
-    if (
-      this.state.formValue.password === '12345678' &&
-      this.state.formValue.email === 'gjose.benevides@gmail.com'
-    ) {
-      this.setState({ validLogin: true })
-    }
-    this.setState({ formError: this.validateForm(this.state.formValue) })
-    this.setState({ submit: true })
-    this.removeNavigationMenu()
-  }
-
-  handleValidation = (e) => {
-    const { name, value } = e.target
-    this.setState({ formValue: { ...this.state.formValue, [name]: value } })
-  }
-
-  handleLogout = () => this.setState({ validLogin: false })
-
-  validateForm = (value) => {
-    let errors = {}
-    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
-    if (!value.email) {
-      errors.email = 'Please enter email'
-    } else if (!emailRegex.test(value.email)) {
-      errors.email = 'Please enter valid email'
-    }
-    if (!value.password || value.password.length < 8) {
-      errors.password = 'Please enter a valid password'
-    }
-    return errors
-  }
-
-  hideModal() {
-    const hiddenModal = document.querySelector('.modal')
-    hiddenModal.classList.remove('active-modal')
-    this.setState({ formValue: { email: '', password: '' } })
-    this.setState({ formError: {} })
-    this.setState({ submit: false })
-  }
-
   removeMenu() {
     const hiddenMenu = document.querySelector('.menu')
     hiddenMenu.classList.remove('active')
   }
+
   findMenuItem(e) {
-    e.preventDefault()
-    const collectData = []
-    allProductsData.map((product) => {
-      if (product.ItemName.toLowerCase().includes(e.target.value)) {
-        collectData.push(product)
-        this.setState({ allProducts: [...collectData] })
+    e.preventDefault();
+    const searchTerm = e.target.value.toLowerCase();
+    const collectData = [];
+
+    allProductsData.forEach((product) => {
+      if (product.ItemName.toLowerCase().includes(searchTerm)) {
+        collectData.push(product);
       }
-    })
-    if (collectData.length === 0) {
-      this.setState({ allProducts: [] })
-    }
+    });
+
+    this.setState({ allProducts: collectData });
   }
 
   //! Other
@@ -408,58 +345,20 @@ export default class App extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const { cartItems, clearedCart, validLogin } = this.state
+    const { cartItems } = this.state
     if (cartItems !== nextState.cartItems) {
       this.getTotalPrice(nextState.cartItems)
     }
-    if (clearedCart !== nextState.clearedCart) {
-      this.clearCart()
-    }
-    if (validLogin !== nextState.validLogin) {
-      this.hideModal()
-    }
 
     return true
-  }
-
-  handlePayment = () => {
-    fetch('http://localhost:3001/create-preference', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      const preferenceId = data.id;
-      window.location.href = `https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=${preferenceId}`;
-    })
-    .catch(error => console.error('Erro ao criar preferência de pagamento:', error));
   }
 
   render() {
     return (
       <BrowserRouter>
         <Header
-          loginModal={
-            <LoginModal
-              validLogin={this.state.validLogin}
-              formValue={this.state.formValue}
-              handleSubmit={this.handleSubmit}
-              submit={this.submit}
-              formError={this.state.formError}
-              handleValidation={this.handleValidation}
-              hideModal={this.hideModal}
-              removeMenu={this.removeNavigationMenu}
-            />
-          }
-          showModal={this.showModal}
           showHiddenMenu={this.showHiddenMenu}
-          handleLogout={this.handleLogout}
-          validLogin={this.state.validLogin}
-          formError={this.state.formError}
           removeNavigationMenu={this.removeNavigationMenu}
-          handleValidation={this.handleValidation}
           productsQuantity={this.state.productsQuantity}
         />
         <Routes>
@@ -500,7 +399,6 @@ export default class App extends React.Component {
               <Cart
                 CartItem={
                   <CartItem
-                    clearCart={this.clearCart}
                     successMsg={this.successMsg}
                     cartItems={this.state.cartItems}
                     handleAddProduct={this.handleAddProduct}
@@ -512,9 +410,6 @@ export default class App extends React.Component {
                     className="cart-carttotals"
                     totalPayment={this.state.totalPayment}
                     productsQuantity={this.state.productsQuantity}
-                    taxes={this.state.taxes}
-                    validLogin={this.state.validLogin}
-                    showModal={this.showModal}
                   />
                 }
                 cartItems={this.state.cartItems}
@@ -536,22 +431,9 @@ export default class App extends React.Component {
               />
             }
           />
-          <Route path="/register" element={<Register />} />
-          <Route
-            path="/payment"
-            element={
-              <div>
-                <Payment
-                  cartItems={this.state.cartItems}
-                  totalPayment={this.state.totalPayment}
-                />
-                <button onClick={this.handlePayment}>
-                  Pagar com Mercado Pago
-                </button>
-              </div>
-            }
-          />
-          <Route path="/password-recovery" element={<PasswordRecovery />} />
+          <Route path="/successful-payment" element={<SuccessfulPayment />} />
+          <Route path="/pending-payment" element={<PendingPayment />} />
+          <Route path="/failed-payment" element={<FailedPayment />} />
         </Routes>
 
       </BrowserRouter>

@@ -7,8 +7,6 @@ import "./core-ui/Responsive.css";
 import "./core-ui/leaflet.css";
 import './routes/menu/Menu.css'
 import './routes/cart/Cart.css'
-import './routes/registration/Register.css'
-import './routes/passRecovery/PasswordRecovery.css'
 import './routes/checkout/checkout.css'
 import './routes/payment/payments.css'
 //Components

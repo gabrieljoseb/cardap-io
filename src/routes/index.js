@@ -1,8 +1,8 @@
 import Cart from "./cart/Cart";
 import Menu from "./menu/Menu";
-import PasswordRecovery from "./passRecovery/PasswordRecovery";
-import Payment from "./payment/Payment";
-import Register from './registration/Register';
+import SuccessfulPayment from "./payment/SuccesssfulPayment";
+import PendingPayment from "./payment/PendingPayment";
+import FailedPayment from "./payment/FailedPayment";
 import SingleItem from './singleItem/SingleItem';
 
-export { Cart, Menu, PasswordRecovery, Payment, Register, SingleItem };
+export { Cart, Menu, SuccessfulPayment, PendingPayment, FailedPayment, SingleItem };

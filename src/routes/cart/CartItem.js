@@ -1,6 +1,5 @@
 import React from "react";
 import CartProductInteraction from "./CartItemInteraction";
-import ClearCartBtn from "./ClearCartBtn";
 
 const CartItem = ({ successMsg,
   handleAddProduct,
@@ -41,14 +40,13 @@ const CartItem = ({ successMsg,
                     successMsg={successMsg}
                   />
 
-                  <p className="cart-item-price">${cartItem.ItemPrice}</p>
+                  <p className="cart-item-price">R${cartItem.ItemPrice}</p>
                 </section>
               </section>
             </article>
           );
         })
       }
-      <ClearCartBtn className="cart-clear-btn" clearCart={clearCart} />
     </section>
   );
 }
