@@ -5,9 +5,7 @@ import {
   Cart,
   Menu,
   SingleItem,
-  SuccessfulPayment,
-  PendingPayment,
-  FailedPayment
+  SuccessfulPayment
 } from './routes/index'
 import { allProductsData } from './data/AllProductsData.js'
 import { AllCategories } from './data/AllCategories'
@@ -392,7 +390,6 @@ export default class App extends React.Component {
               />
             }
           />
-
           <Route
             path="/cart"
             element={
@@ -432,8 +429,6 @@ export default class App extends React.Component {
             }
           />
           <Route path="/successful-payment" element={<SuccessfulPayment />} />
-          <Route path="/pending-payment" element={<PendingPayment />} />
-          <Route path="/failed-payment" element={<FailedPayment />} />
         </Routes>
 
       </BrowserRouter>

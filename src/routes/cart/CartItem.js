@@ -4,7 +4,6 @@ import CartProductInteraction from "./CartItemInteraction";
 const CartItem = ({ successMsg,
   handleAddProduct,
   handleRemoveProduct,
-  clearCart,
   cartItems }) => {
   return (
     <section className="cart-title-section" >

@@ -11,15 +11,6 @@ export default class CartProductInteraction extends React.Component {
 
     return (
       <section className="cart-item-add-qty">
-        <button
-          onClick={() => {
-            handleAddProduct(cartItem, cartItem.userSelectedAttributes);
-            successMsg();
-          }}
-        >
-          +
-        </button>
-
         <p>{cartItem.quantity}</p>
         <button
           onClick={() => {
@@ -27,6 +18,14 @@ export default class CartProductInteraction extends React.Component {
           }}
         >
           -
+        </button>
+        <button
+          onClick={() => {
+            handleAddProduct(cartItem, cartItem.userSelectedAttributes);
+            successMsg();
+          }}
+        >
+          +
         </button>
       </section>
     );

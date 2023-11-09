@@ -9,12 +9,9 @@ export default class CheckoutBtn extends React.Component {
         {
           title: 'Seu Pedido',
           unit_price: totalPayment,
-          // quantity: productsQuantity,
-          quantity: 1,
+          quantity: 1
         }
       ];
-
-      console.log();
 
       const response = await fetch('http://localhost:3001/process-payment', {
         method: 'POST',
