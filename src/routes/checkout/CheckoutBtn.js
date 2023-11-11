@@ -1,5 +1,6 @@
 import React from "react";
 import LinkButton from "../../components/Button";
+import axios from 'axios';
 
 export default class CheckoutBtn extends React.Component {
 
@@ -12,21 +13,9 @@ export default class CheckoutBtn extends React.Component {
           quantity: 1
         }
       ];
-
-      const response = await fetch('api/process-payment', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ items })
-      });
-
-      if (!response.ok) {
-        throw new Error('Erro ao processar pagamento');
-      }
-
-      const data = await response.json();
-      window.location.href = data.url;
+    
+      const response = await axios.post('/api/process-payment', { items });
+      window.location.href = response.data.url;
     } catch (error) {
       console.error('Erro ao processar pagamento:', error);
     }
