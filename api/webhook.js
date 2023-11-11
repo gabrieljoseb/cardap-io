@@ -7,6 +7,7 @@ const webhookHandler = async (req, res) => {
         // Por exemplo, para um pagamento, você pode querer extrair informações da transação.
         if (type === 'payment') {
           const { id, status, payer } = data;
+          console.log('payment type');
           // Lógica para processar a notificação de pagamento.
         }
   
