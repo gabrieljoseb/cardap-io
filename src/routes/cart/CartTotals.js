@@ -3,7 +3,7 @@ import CheckoutBtn from "../checkout/CheckoutBtn";
 import LinkButton from "../../components/Button";
 import ResetLocation from "../../helpers/ResetLocation";
 
-const CartTotals = ({ totalPayment, productsQuantity, className }) => {
+const CartTotals = ({ totalPayment, productsQuantity, cartItems, className }) => {
   return (
     <article className={className}>
       {productsQuantity === 0 ? null : (
@@ -18,9 +18,7 @@ const CartTotals = ({ totalPayment, productsQuantity, className }) => {
           <section className="cart-interaction-btns">
             <CheckoutBtn
               className="active-button-style"
-              /* COUNTING TWICE DUE TO STRICT MODE */
-              totalPayment={(totalPayment / 2)}
-              productsQuantity={productsQuantity}
+              cartItems={cartItems}
             />
             <LinkButton onClick={ResetLocation} to="/menu" className="cart-backtomenu-btn" >
               Voltar ao Cardápio

@@ -11,6 +11,7 @@ module.exports = async (req, res) => {
 
     if (req.method === 'POST') {
         try {
+            console.log(req.body.items);
             let preference = {
                 items: req.body.items,
                 notification_url: 'https://cardap-io.vercel.app/api/webhook',

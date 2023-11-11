@@ -406,6 +406,7 @@ export default class App extends React.Component {
                   <CartTotals
                     className="cart-carttotals"
                     totalPayment={this.state.totalPayment}
+                    cartItems={this.state.cartItems}
                     productsQuantity={this.state.productsQuantity}
                   />
                 }
