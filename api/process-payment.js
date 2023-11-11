@@ -1,7 +1,7 @@
 const mercadopago = require('mercadopago');
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
-const baseUrl = isDevelopment ? 'http://localhost:3000' : 'https://kitchen-io.vercel.app';
+const baseUrl = isDevelopment ? 'http://localhost:3000' : 'https://cardap-io.vercel.app';
 
 mercadopago.configure({
     access_token: process.env.MERCADO_PAGO_ACCESS_TOKEN
@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
         try {
             let preference = {
                 items: req.body.items,
-                notification_url: 'https://kitchen-io.vercel.app/api/webhook',
+                notification_url: 'https://cardap-io.vercel.app/api/webhook',
                 back_urls: {
                     success: `${baseUrl}/successful-payment`,
                     pending: `${baseUrl}/menu`,
