@@ -13,7 +13,7 @@ export default class CheckoutBtn extends React.Component {
         }
       ];
 
-      const response = await fetch('http://localhost:3001/process-payment', {
+      const response = await fetch('api/process-payment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

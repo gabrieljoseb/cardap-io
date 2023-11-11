@@ -9,9 +9,10 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
-    "axios": "^1.6.0",
+    "axios": "^1.6.1",
     "framer-motion": "^10.12.16",
     "leaflet": "^1.9.4",
+    "mercadopago": "^1.5.17",
     "react": "^18.2.0",
     "react-alice-carousel": "^2.7.1",
     "react-dom": "^18.2.0",
@@ -31,7 +32,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "vercelDev": "vercel dev"
   },
   "eslintConfig": {
     "extends": [
