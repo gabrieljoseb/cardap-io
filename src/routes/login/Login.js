@@ -1,9 +1,25 @@
+// Login.js
 import React from 'react';
-import auth, { googleProvider, facebookProvider, analytics, firebaseConfig } from '../../config/firebase';
-import { signInWithPopup } from "firebase/auth";
-import { logEvent } from "firebase/analytics";
+import { firebaseConfig } from '../../config/firebase.config';
+import { initializeApp } from "firebase/app";
+import { getAuth, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAnalytics, logEvent } from "firebase/analytics";
+
+// Inicializar o Firebase com as configurações
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const analytics = getAnalytics(app);
+const googleProvider = new GoogleAuthProvider();
+const facebookProvider = new FacebookAuthProvider();
 
 class Login extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            user: null
+        };
+    }
+
     handleLogin = async (provider) => {
         try {
             const result = await signInWithPopup(auth, provider);
@@ -34,7 +50,6 @@ class Login extends React.Component {
     };
 
     render() {
-        console.log(firebaseConfig);
         return (
             <div>
                 <button onClick={() => this.handleLogin(googleProvider)}>Login com Google</button>
