@@ -20,12 +20,19 @@ const webhookHandler = async (req, res) => {
         }).then(async response => {
           const paymentData = response.data;
           const payerData = paymentData.payer;
+          const itemsData = paymentData.additional_info.items;
           
           // Inserir os dados do pagador na tabela 'pedidos'.
-          const query = 'INSERT INTO pedidos (numero_transacao, nome_cliente, status, cpf, email, celular) VALUES ($1, $2, $3, $4, $5, $6)';
-          const values = [id, payerData.first_name + ' ' + payerData.last_name, 'Pendente', payerData.identification.number, payerData.email, payerData.phone.number];
+          let query = 'INSERT INTO pedidos (numero_transacao, nome_cliente, status, cpf, email, celular) VALUES ($1, $2, $3, $4, $5, $6)';
+          let values = [id, payerData.first_name + ' ' + payerData.last_name, 'Pendente', payerData.identification.number, payerData.email, payerData.phone.number];
           await client.query(query, values);
-          
+
+          // Inserir os itens do pedido na tabela 'pedidos_itens'.
+          query = 'INSERT INTO pedidos_itens (numero_transacao, nome, preco, quantidade) VALUES ($1, $2, $3, $4)';
+          for (let item of itemsData) {
+            values = [id, item.title, item.unit_price, item.quantity];
+            await client.query(query, values);
+          }          
           console.log('Dados inseridos com sucesso');
         }).catch(error => {
           console.error('Erro na requisição:', error);
