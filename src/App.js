@@ -5,7 +5,8 @@ import {
   Cart,
   Menu,
   SingleItem,
-  SuccessfulPayment
+  SuccessfulPayment,
+  Login
 } from './routes/index'
 import { allProductsData } from './data/AllProductsData.js'
 import { AllCategories } from './data/AllCategories'
@@ -26,7 +27,9 @@ export default class App extends React.Component {
       totalPayment: 0,
       formError: {},
       submit: false,
-      preferenceId: null
+      preferenceId: null,
+      user: null,
+      mesaId: null
     }
 
     this.getProductsByCategory = this.getProductsByCategory.bind(this)
@@ -335,12 +338,43 @@ export default class App extends React.Component {
   }
 
   //! Other
-  componentDidMount() {
-    this.getCategories()
-    this.getAllProducts()
-    this.getProductsByCategory(this.state.activeCategory)
-    this.getTotalPrice(this.state.cartItems)
+  async componentDidMount() {
+    // Verificar se o usuário já está logado
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      this.setState({ user: JSON.parse(savedUser) });
+    }
+
+    this.getCategories();
+    this.getAllProducts();
+    this.getProductsByCategory(this.state.activeCategory);
+    this.getTotalPrice(this.state.cartItems);
+
+    // Verificar se há um token na URL (vindo do QR Code)
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    if (token) {
+      try {
+        const response = await fetch(`/api/validate-token?token=${token}`);
+        const data = await response.json();
+        if (response.ok) {
+          // Token válido, continue com o fluxo normal
+          console.log('Acesso permitido para a mesa:', data.mesaId);
+          // Armazenae o ID da mesa no estado do componente
+          this.setState({ mesaId: data.mesaId });
+        } else {
+          // Token inválido
+          console.log('Acesso negado:', data.message);
+        }
+      } catch (error) {
+        console.error('Erro ao validar o token:', error);
+      }
+    }
   }
+
+  setUser = (userInfo) => {
+    this.setState({ user: userInfo });
+  };
 
   shouldComponentUpdate(nextProps, nextState) {
     const { cartItems } = this.state
@@ -360,6 +394,7 @@ export default class App extends React.Component {
           productsQuantity={this.state.productsQuantity}
         />
         <Routes>
+          <Route path="/login" element={<Login setUser={this.setUser} />} />
           <Route
             path="/"
             element={
