@@ -19,29 +19,27 @@ const webhookHandler = async (req, res) => {
           }
         }).then(async response => {
           const paymentData = response.data;
-          const payerData = paymentData.payer;
-          const itemsData = paymentData.additional_info.items;
-          
+          //const payerData = paymentData.payer;
+          const items = paymentData.additional_info.items;
+
           // Inserir os dados do pagador na tabela 'pedidos'.
-          let query = 'INSERT INTO pedidos (numero_transacao, nome_cliente, status, cpf, email, celular) VALUES ($1, $2, $3, $4, $5, $6)';
-          let values = [id, payerData.first_name + ' ' + payerData.last_name, 'Pendente', payerData.identification.number, payerData.email, payerData.phone.number];
-          await client.query(query, values);
+          axios.post('https://kitchen-io.vercel.app/api/orders', {
+            numero_transacao: id,
+            nome_cliente: 'Test User',
+            //nome_cliente: payerData.first_name + ' ' + payerData.last_name,
+            status: 'Pendente',
+          }).catch(error => console.log('[POST] api/orders error: ', error));
 
           // Inserir os itens do pedido na tabela 'pedidos_itens'.
-          query = 'INSERT INTO pedidos_itens (numero_transacao, nome, preco, quantidade) VALUES ($1, $2, $3, $4)';
-          for (let item of itemsData) {
-            values = [id, item.title, item.unit_price, item.quantity];
-            await client.query(query, values);
-          }          
-          console.log('Dados inseridos com sucesso');
+          axios.post('https://kitchen-io.vercel.app/api/orders_itens', { items: items, id: id })
+            .catch(error => console.log('[POST] api/orders_itens error: ', error));
         }).catch(error => {
           console.error('Erro na requisição:', error);
         });
-
-        // Log e resposta de sucesso.
-        console.log('Webhook recebido:', req.body);
-        res.status(200).send('Webhook recebido com sucesso');
       }
+      // Log e resposta de sucesso.
+      console.log('Webhook recebido:', req.body);
+      res.status(200).send('Webhook recebido com sucesso');
     } catch (error) {
       // Log e resposta de erro.
       console.error('Erro ao processar webhook:', error);
