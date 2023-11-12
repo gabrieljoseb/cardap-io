@@ -1,10 +1,8 @@
 import axios from 'axios';
-import pool from './database.js';
 
 const webhookHandler = async (req, res) => {
 
   if (req.method === 'POST') {
-    const client = await pool.connect();
     try {
       const { type, data } = req.body;
 
@@ -44,8 +42,6 @@ const webhookHandler = async (req, res) => {
       // Log e resposta de erro.
       console.error('Erro ao processar webhook:', error);
       res.status(500).send('Erro interno do servidor');
-    } finally {
-      client.release();
     }
   } else {
     // Permitir apenas métodos POST.
