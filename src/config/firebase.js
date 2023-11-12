@@ -2,8 +2,6 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
 
-console.log('api key: ', process.env.FIREBASE_API_KEY);
-
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN,
@@ -21,5 +19,5 @@ const analytics = getAnalytics(app);
 export const googleProvider = new GoogleAuthProvider();
 export const facebookProvider = new FacebookAuthProvider();
 
-export { analytics }; // Exportando o analytics para uso em outros lugares
+export { analytics, firebaseConfig };
 export default auth;
