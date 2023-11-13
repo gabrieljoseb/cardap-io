@@ -378,20 +378,26 @@ class App extends React.Component {
     this.getTotalPrice(this.state.cartItems);
   }
 
-  redirectToLogin = () => {
-    const { user } = this.state;
-    if (!user) {
-      const navigate = this.props.navigate;
-      navigate('/login');
+  componentDidUpdate(prevProps, prevState) {
+    const { user, mesaId } = this.state;
+
+    // Verifica se o estado do usuário mudou e redireciona para login se necessário
+    if (!user && prevState.user) {
+      this.redirectToLogin();
     }
+
+    // Verifica se o estado do mesaId mudou e redireciona para erro se necessário
+    if (!mesaId && prevState.mesaId) {
+      this.redirectToError();
+    }
+  }
+
+  redirectToLogin = () => {
+    this.props.navigate('/login');
   };
 
   redirectToError = () => {
-    const { mesaId } = this.state;
-    if (!mesaId) {
-      const navigate = this.props.navigate;
-      navigate('/error');
-    }
+    this.props.navigate('/error');
   };
 
   handleLogout = () => {
