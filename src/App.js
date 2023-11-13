@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Routes, BrowserRouter } from 'react-router-dom'
+import { Route, Routes, BrowserRouter, useNavigate } from 'react-router-dom'
 import Header from './routes/landing/Header.js'
 import {
   Cart,
@@ -14,7 +14,7 @@ import Item from './routes/singleItem/Item.js'
 import CartTotals from './routes/cart/CartTotals.js'
 import CartItem from './routes/cart/CartItem.js'
 
-export default class App extends React.Component {
+class App extends React.Component {
   constructor() {
     super()
     this.state = {
@@ -365,19 +365,25 @@ export default class App extends React.Component {
 
     // Verificar se o usuário já está logado
     const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      this.setState({ user: JSON.parse(savedUser) });
-    } else {
-      // Se não houver usuário logado, redireciona para a tela de login
-      this.props.navigate('/login');
+    if (!savedUser) {
+      this.redirectToLogin();
       return; // Interrompe a execução do método
     }
+    this.setState({ user: JSON.parse(savedUser) });
 
     this.getCategories();
     this.getAllProducts();
     this.getProductsByCategory(this.state.activeCategory);
     this.getTotalPrice(this.state.cartItems);
   }
+
+  redirectToLogin = () => {
+    const { user } = this.state;
+    if (!user) {
+      const navigate = this.props.navigate;
+      navigate('/login');
+    }
+  };
 
   setUser = (userInfo) => {
     this.setState({ user: userInfo });
@@ -394,7 +400,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <BrowserRouter>
+      <div>
         <Header
           showHiddenMenu={this.showHiddenMenu}
           removeNavigationMenu={this.removeNavigationMenu}
@@ -473,8 +479,22 @@ export default class App extends React.Component {
           />
           <Route path="/successful-payment" element={<SuccessfulPayment />} />
         </Routes>
-
-      </BrowserRouter>
+      </div>
     )
   }
+}
+
+function AppWithNavigate(props) {
+  let navigate = useNavigate();
+  return <App {...props} navigate={navigate} />;
+}
+
+export default function AppWrapper() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="*" element={<AppWithNavigate />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
