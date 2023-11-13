@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Routes, BrowserRouter, withRouter } from 'react-router-dom'
+import { Route, Routes, BrowserRouter } from 'react-router-dom'
 import Header from './routes/landing/Header.js'
 import {
   Cart,
@@ -14,7 +14,7 @@ import Item from './routes/singleItem/Item.js'
 import CartTotals from './routes/cart/CartTotals.js'
 import CartItem from './routes/cart/CartItem.js'
 
-class App extends React.Component {
+export default class App extends React.Component {
   constructor() {
     super()
     this.state = {
@@ -353,14 +353,14 @@ class App extends React.Component {
           this.setState({ mesaId: data.mesaId });
         } else {
           // Token inválido
-          this.props.history.push('/erro'); // Redireciona para uma tela de erro
+          this.props.navigate('/erro'); // Redireciona para uma tela de erro
         }
       } catch (error) {
-        this.props.history.push('/erro'); // Redireciona para uma tela de erro
+        this.props.navigate('/erro'); // Redireciona para uma tela de erro
       }
     } else {
       // Token não presente na URL
-      this.props.history.push('/erro'); // Redireciona para uma tela de erro
+      this.props.navigate('/erro'); // Redireciona para uma tela de erro
     }
 
     // Verificar se o usuário já está logado
@@ -369,7 +369,7 @@ class App extends React.Component {
       this.setState({ user: JSON.parse(savedUser) });
     } else {
       // Se não houver usuário logado, redireciona para a tela de login
-      this.props.history.push('/login');
+      this.props.navigate('/login');
       return; // Interrompe a execução do método
     }
 
@@ -478,5 +478,3 @@ class App extends React.Component {
     )
   }
 }
-
-export default withRouter(App);
