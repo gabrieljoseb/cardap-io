@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Routes, BrowserRouter } from 'react-router-dom'
+import { Route, Routes, BrowserRouter, withRouter } from 'react-router-dom'
 import Header from './routes/landing/Header.js'
 import {
   Cart,
@@ -14,7 +14,7 @@ import Item from './routes/singleItem/Item.js'
 import CartTotals from './routes/cart/CartTotals.js'
 import CartItem from './routes/cart/CartItem.js'
 
-export default class App extends React.Component {
+class App extends React.Component {
   constructor() {
     super()
     this.state = {
@@ -339,17 +339,6 @@ export default class App extends React.Component {
 
   //! Other
   async componentDidMount() {
-    // Verificar se o usuário já está logado
-    const savedUser = localStorage.getItem('user');
-    if (savedUser) {
-      this.setState({ user: JSON.parse(savedUser) });
-    }
-
-    this.getCategories();
-    this.getAllProducts();
-    this.getProductsByCategory(this.state.activeCategory);
-    this.getTotalPrice(this.state.cartItems);
-
     // Verificar se há um token na URL (vindo do QR Code)
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
@@ -360,16 +349,34 @@ export default class App extends React.Component {
         if (response.ok) {
           // Token válido, continue com o fluxo normal
           console.log('Acesso permitido para a mesa:', data.mesaId);
-          // Armazenae o ID da mesa no estado do componente
+          // Armazena o ID da mesa no estado do componente
           this.setState({ mesaId: data.mesaId });
         } else {
           // Token inválido
-          console.log('Acesso negado:', data.message);
+          this.props.history.push('/erro'); // Redireciona para uma tela de erro
         }
       } catch (error) {
-        console.error('Erro ao validar o token:', error);
+        this.props.history.push('/erro'); // Redireciona para uma tela de erro
       }
+    } else {
+      // Token não presente na URL
+      this.props.history.push('/erro'); // Redireciona para uma tela de erro
     }
+
+    // Verificar se o usuário já está logado
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      this.setState({ user: JSON.parse(savedUser) });
+    } else {
+      // Se não houver usuário logado, redireciona para a tela de login
+      this.props.history.push('/login');
+      return; // Interrompe a execução do método
+    }
+
+    this.getCategories();
+    this.getAllProducts();
+    this.getProductsByCategory(this.state.activeCategory);
+    this.getTotalPrice(this.state.cartItems);
   }
 
   setUser = (userInfo) => {
@@ -471,3 +478,5 @@ export default class App extends React.Component {
     )
   }
 }
+
+export default withRouter(App);
