@@ -353,20 +353,23 @@ class App extends React.Component {
           this.setState({ mesaId: data.mesaId });
         } else {
           // Token inválido
-          this.props.navigate('/erro'); // Redireciona para uma tela de erro
+          this.redirectTo('error'); // Redireciona para uma tela de erro
+          return;
         }
       } catch (error) {
-        this.props.navigate('/erro'); // Redireciona para uma tela de erro
+        this.redirectTo('error'); // Redireciona para uma tela de erro
+        return;
       }
     } else {
       // Token não presente na URL
-      this.props.navigate('/erro'); // Redireciona para uma tela de erro
+      this.redirectTo('error'); // Redireciona para uma tela de erro
+      return;
     }
 
     // Verificar se o usuário já está logado
     const savedUser = localStorage.getItem('user');
     if (!savedUser) {
-      this.redirectToLogin();
+      this.redirectTo('login');
       return; // Interrompe a execução do método
     }
     this.setState({ user: JSON.parse(savedUser) });
@@ -377,12 +380,9 @@ class App extends React.Component {
     this.getTotalPrice(this.state.cartItems);
   }
 
-  redirectToLogin = () => {
-    const { user } = this.state;
-    if (!user) {
-      const navigate = this.props.navigate;
-      navigate('/login');
-    }
+  redirectTo = (page) => {
+    const navigate = this.props.navigate;
+    navigate(`/${page}`);
   };
 
   setUser = (userInfo) => {
