@@ -344,15 +344,6 @@ class App extends React.Component {
     const token = urlParams.get('token');
     if (token) {
       try {
-        // Verificar se o usuário já está logado
-        const { user } = this.state;
-        if (!user) {
-          this.redirectTo('login');
-          return; // Interrompe a execução do método
-        }
-        const savedUser = localStorage.getItem('user');
-        this.setState({ user: JSON.parse(savedUser) });
-
         const response = await fetch(`/api/validate-token?token=${token}`);
         const data = await response.json();
         if (response.ok) {
@@ -363,18 +354,23 @@ class App extends React.Component {
         } else {
           // Token inválido
           console.log('Token inválido')
-          this.redirectTo('error'); // Redireciona para uma tela de erro
-          return;
+          this.redirectToError(); // Redireciona para uma tela de erro
         }
       } catch (error) {
-        this.redirectTo('error'); // Redireciona para uma tela de erro
-        return;
+        this.redirectToError(); // Redireciona para uma tela de erro
       }
     } else {
       // Token não presente na URL
-      this.redirectTo('error'); // Redireciona para uma tela de erro
-      return;
+      this.redirectToError(); // Redireciona para uma tela de erro
     }
+
+    // Verificar se o usuário já está logado
+    const savedUser = localStorage.getItem('user');
+    if (!savedUser) {
+      this.redirectToLogin();
+      return; // Interrompe a execução do método
+    }
+    this.setState({ user: JSON.parse(savedUser) });
 
     this.getCategories();
     this.getAllProducts();
@@ -382,9 +378,20 @@ class App extends React.Component {
     this.getTotalPrice(this.state.cartItems);
   }
 
-  redirectTo = (page) => {
-    const navigate = this.props.navigate;
-    navigate(`/${page}`);
+  redirectToLogin = () => {
+    const { user } = this.state;
+    if (!user) {
+      const navigate = this.props.navigate;
+      navigate('/login');
+    }
+  };
+
+  redirectToError = () => {
+    const { mesaId } = this.state;
+    if (!mesaId) {
+      const navigate = this.props.navigate;
+      navigate('/error');
+    }
   };
 
   setUser = (userInfo) => {
