@@ -10,7 +10,6 @@ export default class Header extends React.Component {
   handleLogout = async () => {
     try {
       await signOut(getAuth());
-      // Se você tiver uma função de callback para lidar com o logout no componente pai
       if (this.props.onLogout) {
         this.props.onLogout();
       }

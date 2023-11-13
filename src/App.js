@@ -394,6 +394,11 @@ class App extends React.Component {
     }
   };
 
+  handleLogout = () => {
+    this.setState({ user: null });
+    localStorage.removeItem('user'); // Remove o usuário do localStorage
+  };
+
   setUser = (userInfo) => {
     this.setState({ user: userInfo });
   };
@@ -414,6 +419,7 @@ class App extends React.Component {
           showHiddenMenu={this.showHiddenMenu}
           removeNavigationMenu={this.removeNavigationMenu}
           productsQuantity={this.state.productsQuantity}
+          onLogout={this.handleLogout}
         />
         <Routes>
           <Route path="/login" element={<Login setUser={this.setUser} />} />
