@@ -15,7 +15,7 @@ const uiConfig = {
     // Opções de provedores de login
     GoogleAuthProvider.PROVIDER_ID,
     FacebookAuthProvider.PROVIDER_ID,
-    getAuth.EmailAuthProvider.PROVIDER_ID
+    'email'
   ],
 };
 
