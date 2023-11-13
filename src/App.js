@@ -344,6 +344,14 @@ class App extends React.Component {
     const token = urlParams.get('token');
     if (token) {
       try {
+        // Verificar se o usuário já está logado
+        const savedUser = localStorage.getItem('user');
+        if (!savedUser) {
+          this.redirectTo('login');
+          return; // Interrompe a execução do método
+        }
+        this.setState({ user: JSON.parse(savedUser) });
+
         const response = await fetch(`/api/validate-token?token=${token}`);
         const data = await response.json();
         if (response.ok) {
@@ -353,6 +361,7 @@ class App extends React.Component {
           this.setState({ mesaId: data.mesaId });
         } else {
           // Token inválido
+          console.log('Token inválido')
           this.redirectTo('error'); // Redireciona para uma tela de erro
           return;
         }
@@ -365,14 +374,6 @@ class App extends React.Component {
       this.redirectTo('error'); // Redireciona para uma tela de erro
       return;
     }
-
-    // Verificar se o usuário já está logado
-    const savedUser = localStorage.getItem('user');
-    if (!savedUser) {
-      this.redirectTo('login');
-      return; // Interrompe a execução do método
-    }
-    this.setState({ user: JSON.parse(savedUser) });
 
     this.getCategories();
     this.getAllProducts();
