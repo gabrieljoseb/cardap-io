@@ -345,11 +345,12 @@ class App extends React.Component {
     if (token) {
       try {
         // Verificar se o usuário já está logado
-        const savedUser = localStorage.getItem('user');
-        if (!savedUser) {
+        const { user } = this.state;
+        if (!user) {
           this.redirectTo('login');
           return; // Interrompe a execução do método
         }
+        const savedUser = localStorage.getItem('user');
         this.setState({ user: JSON.parse(savedUser) });
 
         const response = await fetch(`/api/validate-token?token=${token}`);
