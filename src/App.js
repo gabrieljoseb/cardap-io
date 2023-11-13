@@ -38,6 +38,8 @@ class App extends React.Component {
     this.handleRemoveProduct = this.handleRemoveProduct.bind(this)
     this.removeNavigationMenu = this.removeNavigationMenu.bind(this)
     this.findMenuItem = this.findMenuItem.bind(this)
+    this.handleLogout = this.handleLogout.bind(this);
+    this.setUser = this.setUser.bind(this);
   }
 
   // GET DATA
@@ -425,6 +427,7 @@ class App extends React.Component {
           showHiddenMenu={this.showHiddenMenu}
           removeNavigationMenu={this.removeNavigationMenu}
           productsQuantity={this.state.productsQuantity}
+          validLogin={this.state.user !== null}
           onLogout={this.handleLogout}
         />
         <Routes>

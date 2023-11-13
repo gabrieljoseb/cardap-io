@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from '../../assets/images/logo.png';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { getAuth, signOut } from "firebase/auth";
 import Cart from '../../assets/images/cart-icon.png';
 import SuccessMsg from '../../components/SuccessMsg';
@@ -22,6 +22,7 @@ export default class Header extends React.Component {
     const {
       productsQuantity,
       removeNavigationMenu,
+      validLogin,
     } = this.props;
 
     return (
@@ -46,6 +47,22 @@ export default class Header extends React.Component {
           <ul className="navigation-menu flex-row pop-font">
             <li>
               <div className="login-and-cart">
+                {validLogin ? (
+                  <Link
+                    to="/login"
+                    className="passive-button-style txt-white"
+                    onClick={() => { this.handleLogout() }}
+                  >
+                    Log out
+                  </Link>
+                ) : (
+                  <Link
+                    to="/login"
+                    className="passive-button-style txt-white"
+                  >
+                    Log in
+                  </Link>
+                )}
                 <NavLink
                   className="cart-btn active-button-style txt-white"
                   to="/cart"
@@ -57,8 +74,6 @@ export default class Header extends React.Component {
                   <img src={Cart} alt="" aria-hidden="true" />
                   {productsQuantity !== 0 && <p>({productsQuantity})</p>}
                 </NavLink>
-                {/* Botão de Logout */}
-                <button onClick={this.handleLogout} className="logout-btn">Logout</button>
               </div>
             </li>
           </ul>
