@@ -7,6 +7,8 @@ const webhookHandler = (req, res) => {
 
       if (type === 'payment') {
         const { id } = data;
+        console.log('Webhook recebido:', req.body);
+
         // Rota para receber os detalhes da transação.
         axios.get(`https://api.mercadopago.com/v1/payments/${id}`, {
           headers: {
@@ -14,10 +16,10 @@ const webhookHandler = (req, res) => {
           }
         }).then(response => {
           const paymentData = response.data;
-          console.log('paymentData',paymentData);
+          console.log('paymentData', paymentData);
           const payerData = paymentData.payer;
           console.log('payerData', payerData);
-          
+
           // Inserir os dados do pagador na tabela 'pedidos'.
           axios.post('https://kitchen-io.vercel.app/api/orders', {
             numero_transacao: id,
@@ -26,7 +28,7 @@ const webhookHandler = (req, res) => {
             email: payerData.email,
             mesa_id: 1
           }).catch(error => console.log('[POST] api/orders error: ', error));
-          
+
           // Inserir os itens do pedido na tabela 'pedidos_itens'.
           const items = paymentData.additional_info.items;
           axios.post('https://kitchen-io.vercel.app/api/orders_itens', { items: items, id: id })
@@ -36,7 +38,6 @@ const webhookHandler = (req, res) => {
         });
       }
 
-      console.log('Webhook recebido:', req.body);
       res.status(200).send('Webhook recebido com sucesso');
     } catch (error) {
       console.error('Erro ao processar webhook:', error);

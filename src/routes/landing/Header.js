@@ -3,6 +3,7 @@ import logo from '../../assets/images/logo.png';
 import { NavLink, Link } from 'react-router-dom';
 import { getAuth, signOut } from "firebase/auth";
 import Cart from '../../assets/images/cart-icon.png';
+import Orders from '../../assets/images/orders-icon.png';
 import SuccessMsg from '../../components/SuccessMsg';
 import ResetLocation from '../../helpers/ResetLocation';
 
@@ -56,12 +57,16 @@ export default class Header extends React.Component {
                     >
                       Log out
                     </Link>
-                    <Link
+                    <NavLink
+                      className="cart-btn active-button-style txt-white"
                       to="/orders"
-                      className="passive-button-style txt-white"
+                      onClick={() => {
+                        ResetLocation();
+                        removeNavigationMenu();
+                      }}
                     >
-                      Pedidos
-                    </Link>
+                      <img src={Orders} alt="" aria-hidden="true" />
+                    </NavLink>
                   </React.Fragment>
                 ) : (
                   <Link
