@@ -8,34 +8,28 @@ const webhookHandler = (req, res) => {
       if (type === 'payment') {
         const { id } = data;
         // Rota para receber os detalhes da transação.
-        console.log('fazendo GET: ', id);
-        axios.get(`https://api.mercadopago.com/v1/payments/${id}`, {
+        const response = axios.get(`https://api.mercadopago.com/v1/payments/${id}`, {
           headers: {
             'Authorization': `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`
           }
-        }).then(async response => {
-          const paymentData = response.data;
-          //const payerData = paymentData.payer;
-          const items = paymentData.additional_info.items;
-          const userJSON = localStorage.getItem('user');
-          const user = JSON.parse(userJSON);
-
-          console.log('fazendo POST: ', user, items);
-          // Inserir os dados do pagador na tabela 'pedidos'.
-          await axios.post('https://kitchen-io.vercel.app/api/orders', {
-            numero_transacao: id,
-            nome_cliente: 'teste',
-            status: 'Pendente',
-            mesa_id: 2,
-            email: 'teste1@gmail.com'
-          }).catch(error => console.log('[POST] api/orders error: ', error));
-
-          // Inserir os itens do pedido na tabela 'pedidos_itens'.
-          await axios.post('https://kitchen-io.vercel.app/api/orders_itens', { items: items, id: id })
-            .catch(error => console.log('[POST] api/orders_itens error: ', error));
-        }).catch(error => {
-          console.error('Erro na requisição:', error);
         });
+
+        const paymentData = response.data;
+        const payerData = paymentData.payer;
+        const items = paymentData.additional_info.items;
+
+        // Inserir os dados do pagador na tabela 'pedidos'.
+        console.log('localStorage: ', localStorage);
+        axios.post('https://kitchen-io.vercel.app/api/orders', {
+          numero_transacao: id,
+          nome_cliente: payerData.first_name || "test user",
+          status: 'Pendente',
+          mesa_id: 2,
+          email: payerData.email
+        });
+
+        // Inserir os itens do pedido na tabela 'pedidos_itens'.
+        axios.post('https://kitchen-io.vercel.app/api/orders_itens', { items: items, id: id });
       }
 
       console.log('Webhook recebido:', req.body);
