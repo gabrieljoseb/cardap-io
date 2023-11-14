@@ -23,7 +23,7 @@ const webhookHandler = (req, res) => {
             nome_cliente: payerData.first_name,
             email: payerData.email,
             status: 'Pendente',
-            mesa_id: localStorage.getItem('mesa_id')
+            mesa_id: parseInt(localStorage.getItem('mesa_id'))
           }).catch(error => console.log('[POST] api/orders error: ', error));
 
           // Inserir os itens do pedido na tabela 'pedidos_itens'.
