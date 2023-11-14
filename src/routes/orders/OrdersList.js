@@ -17,9 +17,9 @@ class OrdersList extends React.Component {
 
   fetchOrders = async () => {
     try {
-      const response = await axios.get('/api/orders');
+      const response = await axios.get('https://kitchen-io.vercel.app/api/orders');
       const ordersWithItems = await Promise.all(response.data.map(async order => {
-        const itemsResponse = await axios.get(`/api/orders_itens/${order.numero_transacao}`);
+        const itemsResponse = await axios.get(`https://kitchen-io.vercel.app/api/orders_itens/${order.numero_transacao}`);
         order.items = itemsResponse.data;
         return order;
       }));
