@@ -1,4 +1,4 @@
-import axios from 'axios/dist/node/axios.cjs';
+import axios from 'axios';
 
 const webhookHandler = (req, res) => {
   if (req.method === 'POST') {
