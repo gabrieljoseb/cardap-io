@@ -1,10 +1,12 @@
 import axios from 'axios/dist/node/axios.cjs';
 
 const webhookHandler = (req, res) => {
+
   if (req.method === 'POST') {
     try {
       const { type, data } = req.body;
 
+      console.log('Webhook recebido:', req.body);
       if (type === 'payment') {
         const { id } = data;
         // Rota para receber os detalhes da transação.
@@ -34,7 +36,6 @@ const webhookHandler = (req, res) => {
         axios.post('https://kitchen-io.vercel.app/api/orders_itens', { items: items, id: id });
       }
 
-      console.log('Webhook recebido:', req.body);
       res.status(200).send('Webhook recebido com sucesso');
     } catch (error) {
       console.error('Erro ao processar webhook:', error);
