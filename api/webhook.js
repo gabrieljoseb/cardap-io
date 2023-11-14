@@ -14,24 +14,22 @@ const webhookHandler = (req, res) => {
           headers: {
             'Authorization': `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`
           }
-        }).then(response => {
-          const paymentData = response.data;
-          console.log('paymentData', paymentData);
-          const payerData = paymentData.payer;
-          console.log('payerData', payerData);
+        }).then(async response => {
+          const paymentData = await response.data;
+          const payerData = await paymentData.payer;
+          const items = await paymentData.additional_info.items;
 
           // Inserir os dados do pagador na tabela 'pedidos'.
-          axios.post('https://kitchen-io.vercel.app/api/orders', {
+          await axios.post('https://kitchen-io.vercel.app/api/orders', {
             numero_transacao: id,
-            nome_cliente: payerData.first_name || 'test01',
+            nome_cliente: payerData.first_name || 'test02',
             status: 'Pendente',
             email: payerData.email,
             mesa_id: 1
           }).catch(error => console.log('[POST] api/orders error: ', error));
 
           // Inserir os itens do pedido na tabela 'pedidos_itens'.
-          const items = paymentData.additional_info.items;
-          axios.post('https://kitchen-io.vercel.app/api/orders_itens', { items: items, id: id })
+          await axios.post('https://kitchen-io.vercel.app/api/orders_itens', { items: items, id: id })
             .catch(error => console.log('[POST] api/orders_itens error: ', error));
         }).catch(error => {
           console.error('Erro na requisição:', error);
