@@ -16,7 +16,7 @@ const webhookHandler = (req, res) => {
           }
         });
 
-        console.log('paymentData', response.data);
+        console.log('paymentData', response);
         console.log('payerData', response.data.payer);
         const paymentData = response.data;
         const payerData = paymentData.payer;
