@@ -6,7 +6,8 @@ import {
   Menu,
   SingleItem,
   SuccessfulPayment,
-  Login
+  Login,
+  OrdersList
 } from './routes/index'
 import { allProductsData } from './data/AllProductsData.js'
 import { AllCategories } from './data/AllCategories'
@@ -348,9 +349,9 @@ class App extends React.Component {
       try {
         const response = await fetch(`/api/validate-token?token=${token}`);
         const data = await response.json();
+        // Token válido, continue com o fluxo normal
         if (response.ok) {
-          // Token válido, continue com o fluxo normal
-          console.log('Acesso permitido para a mesa:', data.mesaId);
+          localStorage.setItem('mesa_id', data.mesaId);
           // Armazena o ID da mesa no estado do componente
           this.setState({ mesaId: data.mesaId });
         } else {
@@ -479,6 +480,7 @@ class App extends React.Component {
                     className="cart-carttotals"
                     totalPayment={this.state.totalPayment}
                     cartItems={this.state.cartItems}
+                    userInfo={this.state.user}
                     productsQuantity={this.state.productsQuantity}
                   />
                 }
@@ -501,6 +503,14 @@ class App extends React.Component {
               />
             }
           />
+          <Route
+            path="/orders"
+            element={
+              <OrdersList
+                orders={this.state.orders}
+              />
+            }>
+          </Route>
           <Route path="/successful-payment" element={<SuccessfulPayment />} />
         </Routes>
       </div>

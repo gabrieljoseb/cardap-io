@@ -11,9 +11,9 @@ module.exports = async (req, res) => {
 
     if (req.method === 'POST') {
         try {
-            console.log(req.body.items);
             let preference = {
                 items: req.body.items,
+                payer: req.body.payer,
                 notification_url: 'https://cardap-io.vercel.app/api/webhook',
                 back_urls: {
                     success: `${baseUrl}/successful-payment`,

@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export default class CheckoutBtn extends React.Component {
 
-  handlePayment = async (cartItems) => {
+  handlePayment = async (cartItems, userInfo) => {
     try {
 
       const items = cartItems.map(cartItem => {
@@ -15,7 +15,12 @@ export default class CheckoutBtn extends React.Component {
         };
       });
 
-      const response = await axios.post('/api/process-payment', { items });
+      const payer = {
+        "email": userInfo.email,
+        "first_name": userInfo.nome,
+      }
+
+      const response = await axios.post('/api/process-payment', { items, payer });
       window.location.href = response.data.url;
     } catch (error) {
       console.error('Erro ao processar pagamento:', error);
@@ -23,11 +28,11 @@ export default class CheckoutBtn extends React.Component {
   }
 
   render() {
-    const { cartItems, className } = this.props;
+    const { cartItems, userInfo, className } = this.props;
     return (
       <React.Fragment>
         <LinkButton
-          onClick={() => this.handlePayment(cartItems)}
+          onClick={() => this.handlePayment(cartItems, userInfo)}
           className={className}>
           Ir para pagamento
         </LinkButton>

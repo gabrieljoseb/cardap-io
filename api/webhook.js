@@ -14,15 +14,16 @@ const webhookHandler = (req, res) => {
           }
         }).then(async response => {
           const paymentData = response.data;
-          //const payerData = paymentData.payer;
+          const payerData = paymentData.payer;
           const items = paymentData.additional_info.items;
 
           // Inserir os dados do pagador na tabela 'pedidos'.
           axios.post('https://kitchen-io.vercel.app/api/orders', {
             numero_transacao: id,
-            nome_cliente: 'Test User',
-            //nome_cliente: payerData.first_name + ' ' + payerData.last_name,
+            nome_cliente: payerData.first_name,
+            email: payerData.email,
             status: 'Pendente',
+            mesa_id: localStorage.getItem('mesa_id')
           }).catch(error => console.log('[POST] api/orders error: ', error));
 
           // Inserir os itens do pedido na tabela 'pedidos_itens'.

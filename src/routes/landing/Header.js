@@ -48,13 +48,21 @@ export default class Header extends React.Component {
             <li>
               <div className="login-and-cart">
                 {validLogin ? (
-                  <Link
-                    to="/login"
-                    className="passive-button-style txt-white"
-                    onClick={() => { this.handleLogout() }}
-                  >
-                    Log out
-                  </Link>
+                  <React.Fragment>
+                    <Link
+                      to="/login"
+                      className="passive-button-style txt-white"
+                      onClick={() => { this.handleLogout() }}
+                    >
+                      Log out
+                    </Link>
+                    <Link
+                      to="/orders"
+                      className="passive-button-style txt-white"
+                    >
+                      Pedidos
+                    </Link>
+                  </React.Fragment>
                 ) : (
                   <Link
                     to="/login"

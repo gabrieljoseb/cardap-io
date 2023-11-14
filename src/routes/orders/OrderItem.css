@@ -1,0 +1,45 @@
+.order-item {
+    list-style-type: none;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: #333;
+  }
+  
+  .order-item div
+  .button-container {
+    margin-bottom: 10px;
+  }
+
+  .status {
+    padding: 15px 0;
+  }
+
+  .button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start; /* Alinha os botões para a esquerda */
+    flex-wrap: wrap; /* Permite que os botões passem para a próxima linha se não couberem na linha atual */
+  }
+  
+  button {
+    padding: 8px 15px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: #333; /* Cor do texto mais escura para melhor contraste */
+    font-weight: bold; /* Torna o texto em negrito */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Adiciona sombra ao texto para melhorar a legibilidade */
+    background-color: #f8f8f8; /* Cor de fundo claro para alto contraste */
+    border: 1px solid #ccc; /* Adiciona contorno ao botão para definição */
+  }
+  
+  button:hover {
+    background-color: #eee;
+  }
+  
