@@ -26,7 +26,7 @@ const webhookHandler = (req, res) => {
             nome_cliente: "payerData.first_name",
             status: 'Pendente',
             email: "payerData.email@email.com",
-            mesa_id: 1
+            mesa_id: "1"
           }).then(response => console.log('orders response', response))
             .catch(error => console.log('[POST] api/orders error: ', error));
 
