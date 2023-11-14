@@ -8,7 +8,6 @@ import "./core-ui/leaflet.css";
 import './routes/menu/Menu.css'
 import './routes/cart/Cart.css'
 import './routes/checkout/checkout.css'
-import './routes/payment/payments.css'
 //Components
 import AppWrapper from "./App.js";
 
