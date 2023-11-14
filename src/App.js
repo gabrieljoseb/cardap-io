@@ -5,7 +5,6 @@ import {
   Cart,
   Menu,
   SingleItem,
-  SuccessfulPayment,
   Login,
   OrdersList
 } from './routes/index'
@@ -511,7 +510,6 @@ class App extends React.Component {
               />
             }>
           </Route>
-          <Route path="/successful-payment" element={<SuccessfulPayment />} />
         </Routes>
       </div>
     )
