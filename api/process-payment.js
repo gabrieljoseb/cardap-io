@@ -21,6 +21,7 @@ module.exports = async (req, res) => {
                     failure: `${baseUrl}/menu`,
                 }
             };
+            console.log('preference', preference)
             const response = await mercadopago.preferences.create(preference);
             const initPoint = response.body.init_point;
             res.json({ url: initPoint });
