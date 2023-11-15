@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { firebaseConfig } from '../../config/firebase.config';
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, FacebookAuthProvider, signInWithRedirect, EmailAuthProvider } from "firebase/auth";
 import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
 
@@ -15,8 +15,14 @@ const uiConfig = {
     // Opções de provedores de login
     GoogleAuthProvider.PROVIDER_ID,
     FacebookAuthProvider.PROVIDER_ID,
-    'email'
+    EmailAuthProvider.PROVIDER_ID
   ],
+  callbacks: {
+    signInSuccessWithAuthResult: (authResult, redirectUrl) => {
+      signInWithRedirect(auth, authResult.provider);
+      return false; // Evita o redirecionamento automático
+    }
+  }
 };
 
 function Login({ setUser }) {
