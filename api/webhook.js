@@ -11,11 +11,10 @@ const webhookHandler = async (req, res) => {
     console.log('Webhook recebido:', req.body);
 
     if (type !== 'payment') {
-      return res.status(400).send('Tipo de evento não suportado');
+      return res.status(200).send('Webhook recebido com sucesso');
     }
 
     const { id } = data;
-    console.log('id', id);
     const paymentResponse = await axios.get(`https://api.mercadopago.com/v1/payments/${id}`, {
       headers: {
         'Authorization': `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`
@@ -24,7 +23,6 @@ const webhookHandler = async (req, res) => {
 
     const paymentData = paymentResponse.data;
     // const payerData = paymentData.payer; // Descomente e use esses dados
-    // Substitua os valores fixos pelas propriedades reais do payerData
     await axios.post('https://kitchen-io.vercel.app/api/orders', {
       numero_transacao: id,
       nome_cliente: "payerData.first_name",
