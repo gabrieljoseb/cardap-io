@@ -1,7 +1,13 @@
 import React, { useEffect } from 'react';
 import { firebaseConfig } from '../../config/firebase.config';
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, FacebookAuthProvider, signInWithRedirect, EmailAuthProvider } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  EmailAuthProvider,
+  getRedirectResult
+} from "firebase/auth";
 import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
 
@@ -9,25 +15,19 @@ import 'firebaseui/dist/firebaseui.css';
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+// Configurações do Firebase UI
 const uiConfig = {
-  signInSuccessUrl: '/', // URL para redirecionar após o login
+  signInSuccessUrl: '/',
   signInOptions: [
-    // Opções de provedores de login
     GoogleAuthProvider.PROVIDER_ID,
     FacebookAuthProvider.PROVIDER_ID,
     EmailAuthProvider.PROVIDER_ID
   ],
-  callbacks: {
-    signInSuccessWithAuthResult: (authResult, redirectUrl) => {
-      signInWithRedirect(auth, authResult.provider);
-      return false; // Evita o redirecionamento automático
-    }
-  }
 };
 
 function Login({ setUser }) {
   useEffect(() => {
-    // Verifica se a instância da Firebase UI já foi inicializada para evitar duplicação
+    // Iniciar o Firebase UI para o processo de login
     if (firebaseui.auth.AuthUI.getInstance()) {
       const ui = firebaseui.auth.AuthUI.getInstance();
       ui.start('#firebaseui-auth-container', uiConfig);
@@ -36,19 +36,26 @@ function Login({ setUser }) {
       ui.start('#firebaseui-auth-container', uiConfig);
     }
 
-    // Lidar com a atualização do estado do usuário após o login
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        const userInfo = {
-          nome: user.displayName,
-          email: user.email,
-        };
-        setUser(userInfo);
-        localStorage.setItem('user', JSON.stringify(userInfo));
-      }
-    });
+    // Tratar o resultado do redirecionamento após o login
+    getRedirectResult(auth)
+      .then((result) => {
+        if (result) {
+          // Usuário logado, você pode obter o usuário assim: const user = result.user;
+          // Defina o usuário no estado do componente ou faça o que for necessário
+          const userInfo = {
+            nome: result.user.displayName,
+            email: result.user.email,
+          };
+          setUser(userInfo);
+          localStorage.setItem('user', JSON.stringify(userInfo));
+        }
+      })
+      .catch((error) => {
+        // Tratar erros aqui
+        console.error(error);
+      });
 
-    // Limpar a UI ao desmontar o componente
+    // Limpar o Firebase UI ao desmontar o componente
     return () => {
       const ui = firebaseui.auth.AuthUI.getInstance();
       if (ui) ui.delete();
