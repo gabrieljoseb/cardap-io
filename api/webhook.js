@@ -22,13 +22,11 @@ const webhookHandler = async (req, res) => {
     });
 
     const paymentData = paymentResponse.data;
-    // const payerData = paymentData.payer; // Descomente e use esses dados
+    const externalReference = paymentData.external_reference;
     await axios.post('https://kitchen-io.vercel.app/api/orders', {
       numero_transacao: id,
-      nome_cliente: "payerData.first_name",
-      status: 'Pendente',
-      email: "payerData.email@email.com",
-      mesa_id: "1"
+      external_reference: externalReference,
+      status: 'Pendente'
     });
 
     const items = paymentData.additional_info.items;

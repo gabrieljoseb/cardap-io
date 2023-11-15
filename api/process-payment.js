@@ -19,7 +19,8 @@ module.exports = async (req, res) => {
                     success: `${baseUrl}/orders`,
                     pending: `${baseUrl}/menu`,
                     failure: `${baseUrl}/menu`,
-                }
+                },
+                external_reference: req.body.external_reference
             };
             console.log('preference', preference)
             const response = await mercadopago.preferences.create(preference);
