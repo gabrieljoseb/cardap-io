@@ -8,7 +8,7 @@ li {
 .menu-main {
   display: grid;
   grid-template-columns: 1fr;
-  background-image: url("../../assets//images/landing-bg.webp");
+  background-image: url("../../assets//images/bg-image.webp");
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;

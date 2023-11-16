@@ -4,7 +4,6 @@ import reportWebVitals from "./reportWebVitals";
 // CSS
 import "./core-ui/App.css";
 import "./core-ui/Responsive.css";
-import "./core-ui/leaflet.css";
 import './routes/menu/Menu.css'
 import './routes/cart/Cart.css'
 import './routes/checkout/checkout.css'

@@ -40,7 +40,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-image: url("../assets/images/landing-bg.webp");
+  background-image: url("../assets/images/bg-image.webp");
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
