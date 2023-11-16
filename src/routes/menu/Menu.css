@@ -32,6 +32,7 @@ li {
   scroll-behavior: smooth;
   padding: 0.5rem 0; /* Add padding to give some space around the text */
   border-radius: 5px; /* Optional: adds rounded corners to the menu */
+  z-index: 1
 }
 
 /* ScrollBar */
@@ -297,7 +298,6 @@ li {
     overflow-x: initial;
     scroll-behavior: initial;
     align-items: initial;
-    z-index: 1;
   }
   .menu-search-section {
     width: 100%;
