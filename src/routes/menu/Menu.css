@@ -297,6 +297,7 @@ li {
     overflow-x: initial;
     scroll-behavior: initial;
     align-items: initial;
+    z-index: 1;
   }
   .menu-search-section {
     width: 100%;
