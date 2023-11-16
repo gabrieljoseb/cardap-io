@@ -610,7 +610,7 @@ hr {
 
 /* Text Shadow for Better Readability */
 *:not(i):not(g):not(path) {
-  text-shadow: 1px 1px 2px var(--light-black), 0 0 1em var(--white), 0 0 0.2em var(--white);
+  text-shadow: 1px 1px 2px var(--light-black), 0 0 1em var(--light-black), 0 0 0.2em var(--light-black);
 }
 
 /* Semi-Transparent Overlay for Image Background */
