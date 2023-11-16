@@ -6,7 +6,6 @@ import "./core-ui/App.css";
 import "./core-ui/Responsive.css";
 import './routes/menu/Menu.css'
 import './routes/cart/Cart.css'
-import './routes/checkout/checkout.css'
 //Components
 import AppWrapper from "./App.js";
 
