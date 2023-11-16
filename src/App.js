@@ -423,6 +423,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <div className="background-overlay"></div>
         <Header
           showHiddenMenu={this.showHiddenMenu}
           removeNavigationMenu={this.removeNavigationMenu}
