@@ -22,7 +22,7 @@ li {
 }
 .side-menu {
   grid-column: span 1;
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0.5);
   color: var(--white);
   width: 100%;
   justify-content: space-around;
@@ -30,19 +30,8 @@ li {
   align-items: center;
   overflow-x: auto;
   scroll-behavior: smooth;
-}
-
-.sale-message {
-  position: absolute;
-  top: 0;
-  text-transform: uppercase;
-  color: var(--pizza-red);
-  font-family: var(--poppins-font);
-  font-weight: 700;
-  font-size: 2rem;
-  letter-spacing: 2px;
-  padding: 1rem;
-  text-shadow: 1px 1px var(--light-black);
+  padding: 0.5rem 0; /* Add padding to give some space around the text */
+  border-radius: 5px; /* Optional: adds rounded corners to the menu */
 }
 
 /* ScrollBar */
@@ -69,7 +58,7 @@ li {
   text-align: center;
   align-items: center;
   padding: 2rem;
-  border: 1px solid var(--yellow);
+  border: none; /* Remove border if not needed */
   font-family: var(--poppins-font);
   overflow-x: auto;
   scroll-behavior: smooth;
