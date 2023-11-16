@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { firebaseConfig } from '../../config/firebase.config';
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, FacebookAuthProvider, signInWithRedirect, EmailAuthProvider } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, EmailAuthProvider } from "firebase/auth";
 import * as firebaseui from 'firebaseui';
 import 'firebaseui/dist/firebaseui.css';
 
@@ -19,7 +19,7 @@ const uiConfig = {
   ],
   callbacks: {
     signInSuccessWithAuthResult: (authResult, redirectUrl) => {
-      signInWithRedirect(auth, authResult.provider);
+      signInWithPopup(auth, authResult.provider);
       return true; // Evita o redirecionamento automático
     }
   }
