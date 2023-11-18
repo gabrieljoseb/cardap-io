@@ -11,13 +11,12 @@ import BlissfulEel from '../assets/images/sushi-images/sushi-2.jpeg'
 import SushiOne from '../assets/images/sushi-images/sushi-1.jpeg'
 
 export const allProductsData = [
-  
   {
     id: 'margherita-pizza',
     ItemImg: MargheritaPizza,
-    ItemName: 'Margherita Pizza',
+    ItemName: 'Pizza Margherita',
     ItemIngredients:
-      'Pizza dough, tomato sauce, fresh mozzarella, olive oil, basil leaves.',
+      'Massa de pizza, molho de tomate, mussarela fresca, azeite de oliva, folhas de manjericão.',
     ItemPrice: (8).toFixed(2),
     Category: 'Pizza',
     attributes: [
@@ -25,10 +24,10 @@ export const allProductsData = [
         id: 'size',
         name: 'size',
         items: [
-          { id: 'small', value: 'small', slices: '6' },
-          { id: 'medium', value: 'medium', slices: '8' },
-          { id: 'large', value: 'large', slices: '10' },
-          { id: 'x-large', value: 'x-large', slices: '12' },
+          { id: 'small', value: 'pequena', slices: '6' },
+          { id: 'medium', value: 'média', slices: '8' },
+          { id: 'large', value: 'grande', slices: '10' },
+          { id: 'x-large', value: 'extra-grande', slices: '12' },
         ],
       },
     ],
@@ -36,9 +35,9 @@ export const allProductsData = [
   {
     id: 'california-style-pizza',
     ItemImg: CaliforniaStyle,
-    ItemName: 'California-Style Pizza',
+    ItemName: 'Pizza Estilo Califórnia',
     ItemIngredients:
-      'Feta cheese, marinated artichoke hearts, pizza crust, red bell pepper, red onion.',
+      'Queijo feta, corações de alcachofra marinados, massa de pizza, pimentão vermelho, cebola roxa.',
     ItemPrice: (15).toFixed(2),
     Category: 'Pizza',
     attributes: [
@@ -46,10 +45,10 @@ export const allProductsData = [
         id: 'size',
         name: 'size',
         items: [
-          { id: 'small', value: 'small', slices: '6' },
-          { id: 'medium', value: 'medium', slices: '8' },
-          { id: 'large', value: 'large', slices: '10' },
-          { id: 'x-large', value: 'x-large', slices: '12' },
+          { id: 'small', value: 'pequena', slices: '6' },
+          { id: 'medium', value: 'média', slices: '8' },
+          { id: 'large', value: 'grande', slices: '10' },
+          { id: 'x-large', value: 'extra-grande', slices: '12' },
         ],
       },
     ],
@@ -57,39 +56,39 @@ export const allProductsData = [
   {
     id: 'chicken-alfredo',
     ItemImg: ChickenAlfredo,
-    ItemName: 'Chicken Alfredo',
+    ItemName: 'Frango Alfredo',
     ItemIngredients:
-      'Skinless chicken breast, heavy cream, olive oil, parmigiano reggiano, black pepper.',
+      'Peito de frango sem pele, creme de leite, azeite de oliva, queijo parmigiano reggiano, pimenta preta.',
     ItemPrice: (2).toFixed(2),
-    Category: 'Pasta',
+    Category: 'Massas',
     attributes: [],
   },
   {
     id: 'italian-mac-and-cheese',
     ItemImg: MacCheese,
-    ItemName: 'Italian Mac and Cheese',
+    ItemName: 'Macarrão com Queijo ao Estilo Italiano',
     ItemIngredients:
-      'Italian sausage, pasta, cheese sauce, cream, baby spinach.',
+      'Linguiça italiana, massa, molho de queijo, creme, espinafre bebê.',
     ItemPrice: (8).toFixed(2),
-    Category: 'Pasta',
+    Category: 'Massas',
     attributes: [],
   },
   {
     id: 'chicken-alfredo-second',
     ItemImg: ChickenAlfredo,
-    ItemName: 'Chicken Alfredo',
+    ItemName: 'Frango Alfredo',
     ItemIngredients:
-      'Skinless chicken breast, heavy cream, olive oil, parmigiano reggiano, black pepper.',
+      'Peito de frango sem pele, creme de leite, azeite de oliva, queijo parmigiano reggiano, pimenta preta.',
     ItemPrice: (2).toFixed(2),
-    Category: 'Pasta',
+    Category: 'Massas',
     attributes: [],
   },
   {
     id: 'blissful-eel-roll-8-pcs',
     ItemImg: BlissfulEel,
-    ItemName: 'Blissful Eel Roll 8Pcs',
+    ItemName: 'Rolinho de Enguia Feliz 8Pcs',
     ItemIngredients:
-      'Eel kinda blissful, Cream Cheese, Avocado, Tobico, Sesame, Rice, Nori.',
+      'Enguia do tipo feliz, Cream Cheese, Abacate, Tobico, Gergelim, Arroz, Nori.',
     ItemPrice: (14).toFixed(2),
     Category: 'Sushi',
     attributes: [],
@@ -97,8 +96,8 @@ export const allProductsData = [
   {
     id: 'avocado-maki-raki-8-pcs',
     ItemImg: SushiOne,
-    ItemName: 'Avocado Maki Raki 8Pcs',
-    ItemIngredients: 'Avocado, Cream Cheese, Rice, Nori.',
+    ItemName: 'Maki Raki de Abacate 8Pcs',
+    ItemIngredients: 'Abacate, Cream Cheese, Arroz, Nori.',
     ItemPrice: (5).toFixed(2),
     Category: 'Sushi',
     attributes: [],
@@ -106,40 +105,28 @@ export const allProductsData = [
   {
     id: 'coca-cola-original-soda-pop',
     ItemImg: CocaCola,
-    ItemName: 'Coca-Cola Original Soda Pop',
+    ItemName: 'Refrigerante Original Coca-Cola',
     ItemPrice: (1).toFixed(2),
-    Category: 'Drinks',
+    Category: 'Bebidas',
     attributes: [],
   },
   {
     id: 'aquafina-purified-bottled-drinking-water',
     ItemImg: AquafinaPurified,
-    ItemName: 'Aquafina Purified Bottled Drinking Water',
+    ItemName: 'Água Engarrafada Purificada Aquafina',
     ItemPrice: (2).toFixed(2),
-    Category: 'Drinks',
+    Category: 'Bebidas',
     attributes: [],
   },
   {
     id: 'margherita-pizza-sale',
     ItemImg: MargheritaPizza,
-    ItemName: 'Margherita Pizza',
+    ItemName: 'Pizza Margherita',
     ItemIngredients:
-      'Pizza dough, tomato sauce, fresh mozzarella, olive oil, basil leaves.',
+      'Massa de pizza, molho de tomate, mussarela fresca, azeite de oliva, folhas de manjericão.',
     ItemPriceBefore: (8).toFixed(2),
     ItemPrice: (7).toFixed(2),
-    Category: 'Sale',
-    sale: true,
-    attributes: [],
-  },
-  {
-    id: 'margherita-pizza-sale-second',
-    ItemImg: MargheritaPizza,
-    ItemName: 'Margherita Pizza',
-    ItemIngredients:
-      'Pizza dough, tomato sauce, fresh mozzarella, olive oil, basil leaves.',
-    ItemPriceBefore: (8).toFixed(2),
-    ItemPrice: (7).toFixed(2),
-    Category: 'Sale',
+    Category: 'Promoção',
     sale: true,
     attributes: [],
   }
