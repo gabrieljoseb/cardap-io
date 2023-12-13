@@ -6,11 +6,20 @@ import './OrdersList.css';
 class OrdersList extends React.Component {
   state = {
     orders: [],
+    userName: null, // Estado para armazenar o nome do usuário logado
   };
 
   componentDidMount() {
+    this.fetchUserName();
     this.fetchOrders();
   }
+
+  fetchUserName = () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user && user.nome) {
+      this.setState({ userName: user.nome });
+    }
+  };
 
   fetchOrders = async () => {
     try {
@@ -24,33 +33,23 @@ class OrdersList extends React.Component {
       );
       const itemsResponses = await Promise.all(itemsPromises);
 
-      // Associe os itens de pedido aos seus respectivos pedidos
-      const ordersWithItems = orders.map((order, index) => {
-        return {
-          ...order,
-          items: itemsResponses[index].data,
-        };
-      });
-
-      // Obtenha informações do cliente para cada pedido em paralelo
-      const clientPromises = ordersWithItems.map(order =>
+      const clientPromises = orders.map(order =>
         axios.get(`/api/client/${order.external_reference}`)
       );
       const clientResponses = await Promise.all(clientPromises);
 
-      // Associe as informações do cliente aos seus respectivos pedidos
-      const ordersWithItemsAndClients = ordersWithItems.map((order, index) => {
-        return {
-          ...order,
-          cliente: clientResponses[index].data,
-        };
-      });
-      console.log(ordersWithItems);
-      console.log(clientResponses);
-      console.log(ordersWithItemsAndClients);
-      console.log(localStorage('user'));
+      const ordersWithItemsAndClients = orders.map((order, index) => ({
+        ...order,
+        items: itemsResponses[index].data,
+        cliente: clientResponses[index].data,
+      }));
 
-      this.setState({ orders: ordersWithItemsAndClients });
+      // Filtre os pedidos para incluir apenas aqueles relacionados ao nome do usuário logado
+      const userOrders = ordersWithItemsAndClients.filter(order =>
+        order.cliente.nome === this.state.userName
+      );
+
+      this.setState({ orders: userOrders });
     } catch (error) {
       console.error('Error when fetching orders', error);
     }
