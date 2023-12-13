@@ -45,6 +45,10 @@ class OrdersList extends React.Component {
           cliente: clientResponses[index].data,
         };
       });
+      console.log(ordersWithItems);
+      console.log(clientResponses);
+      console.log(ordersWithItemsAndClients);
+      console.log(localStorage('user'));
 
       this.setState({ orders: ordersWithItemsAndClients });
     } catch (error) {
